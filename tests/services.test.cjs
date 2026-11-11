@@ -1,19 +1,21 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { readFileSync } = require('node:fs');
-const html = readFileSync('index.html', 'utf8');
+const html = readFileSync('index.html', 'utf8').replace(/\s+/g, ' ');
 const cards = [...html.matchAll(/<article class="(?:plan|wide-plan)[^"]*">(.*?)<\/article>/gs)].map(m => m[1]);
 
-test('service cards match the updated guide prices and eligibility', () => {
+test('service cards match approved USD prices and preserve eligibility', () => {
   const expected = [
-    ['Consulta', '$800'], ['en Calma', '$2,000'],
-    ['<br>Noches Bonitas', '$3,500'], ['Noches Bonitas Contigo', '$4,500'],
-    ['Tu Sleep Coach', '$750'], ['Asesoría Hábitos Saludables', '$2,000'],
+    ['Consulta', '$45'], ['en Calma', '$105'],
+    ['<br>Noches Bonitas', '$190'], ['Noches Bonitas Contigo', '$240'],
+    ['Tu Sleep Coach', '$40'], ['Asesoría Hábitos Saludables', '$105'],
   ];
   assert.equal(cards.length, 6);
+  assert.ok(cards.find(c => c.includes('Tu Sleep Coach')).includes('USD / mes'));
   for (const [name, price] of expected) {
     const card = cards.find(c => c.includes(name));
-    assert.ok(card?.includes(price), name);
+    assert.ok(card?.includes(price + ' <span>USD'), name);
+    assert.ok(!card.includes('MXN'), name);
   }
   const early = cards.find(c => c.includes('Asesoría Hábitos Saludables'));
   for (const text of ['90 minutos', '0 a 5 meses', 'embarazo', 'sin entrenamiento de sueño', 'Guía digital']) {

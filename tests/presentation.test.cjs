@@ -5,7 +5,7 @@ const html = readFileSync('index.html', 'utf8');
 
 test('action arrows use decorative SVGs instead of platform emoji glyphs', () => {
   assert.doesNotMatch(html, /[\u2197\u2193]/u);
-  const icons = html.match(/<svg class="icon-arrow"[^>]*>/g) || [];
+  const icons = html.match(/<svg\s+class="icon-arrow"[^>]*>/g) || [];
   assert.equal(icons.length, 12);
   for (const icon of icons) {
     assert.match(icon, /aria-hidden="true"/);
@@ -20,4 +20,11 @@ test('plan headings retain word boundaries when desktop breaks are hidden', () =
   for (const title of ['Consulta Sueño Express', 'Plan Sueño en Calma', 'Plan Noches Bonitas']) {
     assert.ok(titles.includes(title), `Missing readable title: ${title}`);
   }
+});
+test('header links to services and testimonials', () => {
+  const page = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'index.html'), 'utf8');
+  const navigation = page.match(/<nav\b[^>]*>([\s\S]*?)<\/nav>/)[1];
+  assert.match(navigation, /href="#servicios">Planes<\/a>/);
+  assert.match(navigation, /href="#testimonios">Testimonios<\/a>/);
+  assert.match(page, /id="testimonios"/);
 });

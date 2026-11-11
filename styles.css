@@ -194,15 +194,22 @@ footer p, footer > a:last-child { font-size: 10px; margin: 0; }
 .experience-card { position: relative; display: flex; flex-direction: column; padding: 12px; background: var(--cream); border: 1px solid #173a5b20; border-radius: 18px; text-decoration: none; cursor: zoom-in; }
 .experience-card img { display: block; width: 100%; height: 330px; object-fit: contain; background: #e6dfd5; border-radius: 10px; }
 .expand-icon { position: absolute; right: 20px; bottom: 20px; width: 32px; height: 32px; padding: 7px; border-radius: 50%; background: var(--cream); color: var(--night); fill: none; stroke: currentColor; stroke-width: 1.6; box-shadow: 0 2px 8px #173a5b30; pointer-events: none; }
-.image-dialog { width: min(850px, calc(100% - 24px)); max-width: calc(100% - 24px); height: 90vh; height: 90dvh; max-height: 90vh; max-height: 90dvh; margin: auto; padding: 16px; border: 0; border-radius: 16px; background: var(--cream); color: var(--night); overflow: hidden; overscroll-behavior: none; }
-.image-dialog[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 12px; }
-.image-dialog::backdrop { background: #102b40d9; }
+.image-dialog { position: fixed; inset: 0; width: 100%; max-width: none; height: 100vh; height: 100lvh; max-height: none; margin: 0; padding: 0; border: 0; background: #304858; color: var(--night); overflow: hidden; overscroll-behavior: none; }
+.image-dialog-panel { position: absolute; left: 50%; top: 5vh; top: 5dvh; transform: translateX(-50%); width: min(850px, calc(100% - 24px)); height: 90vh; height: 90dvh; padding: 16px; border-radius: 16px; background: var(--cream); display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 12px; overflow: hidden; }
+/* Both the top-layer surface and the root canvas cover exposed toolbar space.
+   Only the inner panel is cream; the full dialog surface is blue. */
+html.image-modal-open { background: #304858; }
+html.image-modal-open body { background: #304858; }
+.image-dialog::backdrop { background: #304858; }
+.experience-card:focus-visible { outline-offset: -4px; }
+.experience-card[data-pointer-focus]:focus,
+.image-dialog[data-pointer-open] [data-close]:focus { outline: none; }
 .image-dialog-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--cream); }
 .image-dialog-bar h2 { font-size: 18px; margin: 0; letter-spacing: 0; }
 .image-dialog button { display: grid; place-items: center; border: 0; border-radius: 50%; padding: 10px; font: inherit; }
 .image-dialog button:hover { background: var(--sand); }
 .image-dialog button svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; }
-.image-dialog > img { display: block; width: 100%; height: 100%; min-height: 0; min-width: 0; object-fit: contain; }
+.image-dialog-panel > img { display: block; width: 100%; height: 100%; min-height: 0; min-width: 0; object-fit: contain; }
 @media (max-width: 1000px) { .carousel-track > * { flex-basis: calc((100% - 24px) / 2); } }
 @media (max-width: 650px) {
   .testimonials, .experience-band { padding-block: 56px; }

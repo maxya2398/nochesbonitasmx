@@ -4,11 +4,11 @@ const { readFileSync } = require('node:fs');
 const html = readFileSync('index.html', 'utf8').replace(/\s+/g, ' ');
 const cards = [...html.matchAll(/<article class="(?:plan|wide-plan)[^"]*">(.*?)<\/article>/gs)].map(m => m[1]);
 
-test('service cards match approved USD prices and preserve eligibility', () => {
+test('service cards preserve current regular USD prices and eligibility', () => {
   const expected = [
-    ['Consulta', '$45'], ['en Calma', '$105'],
+    ['Consulta', '$45'], ['en Calma', '$100'],
     ['<br>Noches Bonitas', '$190'], ['Noches Bonitas Contigo', '$240'],
-    ['Tu Sleep Coach', '$40'], ['Asesoría Hábitos Saludables', '$105'],
+    ['Tu Sleep Coach', '$40'], ['Asesoría Hábitos Saludables', '$100'],
   ];
   assert.equal(cards.length, 6);
   assert.ok(cards.find(c => c.includes('Tu Sleep Coach')).includes('USD / mes'));

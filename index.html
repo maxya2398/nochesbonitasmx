@@ -8,11 +8,34 @@
     content="Acompañamiento de sueño infantil respetuoso y personalizado con Nicoleth. Conoce los servicios de Noches Bonitas Mx.">
   <title>Noches Bonitas · Sueño infantil respetuoso</title>
   <link rel="stylesheet" href="styles.css?v=modal-layer-3">
+  <link rel="stylesheet" href="promotion.css?v=november-2026-2">
+  <script src="promotion.js?v=november-2026-2" defer></script>
   <script src="animations.js" defer></script>
 </head>
 
 <body>
   <a class="skip-link" href="#inicio">Ir al contenido</a>
+  <aside class="promo-banner" data-promo-banner aria-label="Promoción de noviembre" hidden>
+    <div class="promo-banner-inner wrap">
+      <div class="promo-banner-copy"><span class="promo-banner-tag">BUEN FIN · NOVIEMBRE</span><strong>30% de descuento en todos los servicios</strong></div>
+      <div class="promo-countdown" role="timer" aria-live="off" aria-label="Tiempo restante de la promoción" data-promo-countdown></div>
+      <button class="promo-banner-action" type="button" data-promo-details>Ver promoción</button>
+    </div>
+  </aside>
+  <dialog class="promotion-dialog" data-promo-dialog aria-labelledby="promo-title" aria-describedby="promo-description promo-deadline">
+    <div class="promo-panel" tabindex="-1">
+      <button class="promo-close" type="button" data-promo-close aria-label="Cerrar promoción" autofocus>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+      <svg class="promo-emblem" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true" focusable="false"><path d="M26 4a20 20 0 1 0 18 27A18 18 0 0 1 26 4Z"/><path d="m36 6 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z"/></svg>
+      <p class="eyebrow">UN BUEN FIN PARA DESCANSAR MEJOR</p>
+      <h2 id="promo-title">Noviembre nos regala<br>noches más bonitas.</h2>
+      <div class="promo-discount" aria-label="30 por ciento de descuento"><strong aria-hidden="true">30%</strong><span aria-hidden="true">DE DESCUENTO</span></div>
+      <p class="promo-description" id="promo-description">En <strong>todos nuestros servicios</strong>, durante noviembre.<br>Un primer paso hacia noches con un poquito más de calma.</p>
+      <button class="button" type="button" data-promo-plans>Encontrar mi plan</button>
+      <p class="promo-deadline" id="promo-deadline">Válido hasta el 30 de noviembre de 2026, 23:59 h.<br>Horario de Ciudad de México. Precios en USD.</p>
+    </div>
+  </dialog>
   <header class="header wrap">
     <a class="brand-image" href="#inicio" aria-label="Noches Bonitas, inicio"><img
         src="assets/images/brand/logo-web-v2.png" alt="Noches Bonitas" width="2172" height="724"
@@ -111,7 +134,7 @@
         <article class="plan">
           <p class="eyebrow">UNA DUDA PUNTUAL</p>
           <h3>Consulta <br>Sueño Express</h3>
-          <p class="price">$45 <span>USD</span></p>
+          <p class="price" data-regular-cents="4500" data-unit="USD">$45 <span>USD</span></p>
           <p>Claridad para una situación específica, sin realizar un plan completo.</p>
           <ul>
             <li>Videollamada de 45 minutos</li>
@@ -128,7 +151,7 @@
           <p class="eyebrow">A TU PROPIO RITMO</p>
           <h3>Plan Sueño <br>en Calma</h3>
           <p class="eligibility">Desde los 6 meses</p>
-          <p class="price">$100 <span>USD</span></p>
+          <p class="price" data-regular-cents="10000" data-unit="USD">$100 <span>USD</span></p>
           <p>Un plan completo para implementar de forma independiente.</p>
           <ul>
             <li>Análisis completo del sueño</li>
@@ -145,7 +168,7 @@
           <p class="eyebrow">LO HACEMOS JUNTAS</p>
           <h3>Plan <br>Noches Bonitas</h3>
           <p class="eligibility">Desde los 6 meses</p>
-          <p class="price">$190 <span>USD</span></p>
+          <p class="price" data-regular-cents="19000" data-unit="USD">$190 <span>USD</span></p>
           <p>Tu plan personalizado, con apoyo cercano para ponerlo en práctica.</p>
           <ul>
             <li>Todo el Plan Sueño en Calma</li>
@@ -164,7 +187,7 @@
           <p class="eyebrow">BASES SALUDABLES DESDE EL INICIO</p>
           <h3>Asesoría Hábitos Saludables</h3>
           <p class="eligibility">Durante el embarazo o para bebés de 0 a 5 meses</p>
-          <p class="price">$100 <span>USD</span></p>
+          <p class="price" data-regular-cents="10000" data-unit="USD">$100 <span>USD</span></p>
           <p>Comprende el sueño de tu bebé y construye bases saludables sin entrenamiento de sueño.</p>
           <ul>
             <li>Videollamada individual de 90 minutos</li>
@@ -185,7 +208,7 @@
           <p class="eyebrow">MÁS TIEMPO, MÁS CALMA</p>
           <h3>Noches Bonitas Contigo</h3>
           <p class="eligibility">Desde los 6 meses</p>
-          <p class="price">$240 <span>USD</span></p>
+          <p class="price" data-regular-cents="24000" data-unit="USD">$240 <span>USD</span></p>
           <p>Plan personalizado y <strong>30 días de acompañamiento por WhatsApp</strong>, revisión de bitácora y
             ajustes. Incluye llamada inicial de 60 minutos, seguimiento de 30 minutos y revisión final.</p><a
             class="text-link" href="https://ig.me/m/nochesbonitas.mx">Quiero un mes de acompañamiento <svg
@@ -197,7 +220,7 @@
         <article class="wide-plan membership">
           <p class="eyebrow">PARA LAS ETAPAS QUE SIGUEN</p>
           <h3>Tu Sleep Coach</h3>
-          <p class="price">$40 <span>USD / mes</span></p>
+          <p class="price" data-regular-cents="4000" data-unit="USD / mes">$40 <span>USD / mes</span></p>
           <p>Seguimiento por WhatsApp dentro del horario de atención, ajustes de rutinas, revisión mensual de bitácora y
             una videollamada de 30 minutos al mes.</p>
           <p class="eligibility">Exclusivo para familias que ya realizaron un plan completo con Noches Bonitas.</p><a

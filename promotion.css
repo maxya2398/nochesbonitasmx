@@ -1,0 +1,57 @@
+/* November campaign is progressively enhanced; regular prices remain without JS. */
+.promo-banner[hidden] { display: none; }
+.promo-banner { position: sticky; top: 0; z-index: 20; background: var(--night); color: var(--cream); border-bottom: 1px solid #8db8dc50; padding: 12px 0; }
+.promo-banner-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.promo-banner-copy { display: flex; align-items: center; gap: 14px; font-size: 13px; line-height: 1.4; }
+.promo-banner-copy strong { font-weight: 600; }
+.promo-banner-tag { color: var(--sand); font-size: 10px; letter-spacing: .16em; white-space: nowrap; }
+.promo-countdown { display: flex; align-items: center; gap: 7px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.promo-time-lead { color: var(--sand); font-size: 12px; font-weight: 600; margin-right: 3px; }
+.promo-time-unit { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 53px; padding: 6px 8px; border: 1px solid #8db8dc60; border-radius: 9px; background: #ffffff0d; line-height: 1.2; }
+.promo-time-unit strong { color: var(--cream); font-size: 24px; font-weight: 600; letter-spacing: -.03em; }
+.promo-time-unit > span { color: var(--sand); font-size: 9px; margin-top: 3px; letter-spacing: .04em; }
+.promo-banner-action { background: var(--sand); color: var(--night); border: 0; border-radius: 7px; padding: 10px 16px; min-height: 44px; font: inherit; font-size: 12px; line-height: 1.4; font-weight: 600; cursor: pointer; white-space: nowrap; }
+html.promotion-active { scroll-padding-top: calc(var(--promo-banner-height, 100px) + 24px); }
+.promotion-active .skip-link:focus { z-index: 21; }
+.promo-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.price .promo-original { display: block; font-size: 18px; font-weight: 400; letter-spacing: 0; margin-bottom: 7px; opacity: .8; text-decoration-thickness: 1px; }
+.price .promo-price-line { display: block; font: inherit; }
+.price .promo-sale { color: #ad493b; font: inherit; }
+.featured .price .promo-sale { color: #ffb2a1; }
+.price .promo-price-note { display: block; margin-top: 9px; font-size: 10px; letter-spacing: .04em; white-space: normal; }
+.promotion-dialog { position: fixed; inset: 0; width: 100%; max-width: none; height: 100vh; height: 100lvh; max-height: none; margin: 0; padding: 0; border: 0; background: #304858; color: var(--night); overflow: hidden; overscroll-behavior: none; }
+.promotion-dialog::backdrop, html.promotion-modal-open, html.promotion-modal-open body { background: #304858; }
+.promo-panel { position: absolute; top: 50vh; top: 50dvh; left: 50%; transform: translate(-50%, -50%); width: min(560px, calc(100% - 32px)); max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; padding: 42px 42px 30px; border-radius: 24px; background: var(--cream); text-align: center; box-shadow: 0 24px 80px #102b4040; }
+.promo-close { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: var(--night); cursor: pointer; }
+.promo-panel:focus { outline: none; }
+.promo-close:hover { background: var(--sand); }
+.promo-close svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.8; fill: none; }
+.promo-emblem { display: block; margin: 0 auto 16px; width: 48px; height: 48px; color: var(--night); }
+.promo-panel .eyebrow { margin-bottom: 16px; color: #8d4929; }
+.promo-panel h2 { font-size: clamp(26px, 4vw, 36px); margin-bottom: 18px; line-height: 1.2; }
+.promo-discount { width: fit-content; margin: 0 auto 20px; padding: 14px 38px; border-radius: 60px 60px 18px 18px; background: var(--night); color: var(--sand); }
+.promo-discount strong { display: block; font: 600 82px/1.05 Poppins, "Segoe UI", sans-serif; letter-spacing: -.06em; }
+.promo-discount span { font-size: 11px; letter-spacing: .19em; }
+.promo-description { font-size: 14px; line-height: 1.7; margin-bottom: 18px; }
+.promo-panel .button { width: 100%; font-family: inherit; cursor: pointer; }
+.promo-deadline { font-size: 11px; color: var(--ink-muted); margin: 18px 0 0; line-height: 1.6; }
+@media (max-width: 760px) {
+  .promo-banner { padding: 9px 0; }
+  .promo-banner-inner { flex-wrap: wrap; gap: 7px 12px; }
+  .promo-banner-copy { width: 100%; justify-content: center; gap: 8px; font-size: 11px; }
+  .promo-banner-tag { font-size: 9px; }
+  .promo-countdown { gap: 4px; }
+  .promo-time-lead { font-size: 10px; margin-right: 2px; }
+  .promo-time-unit { min-width: 36px; padding: 5px 4px; border-radius: 7px; }
+  .promo-time-unit strong { font-size: 19px; }
+  .promo-time-unit > span { font-size: 8px; }
+  .promo-banner-action { min-height: 34px; padding: 6px 10px; font-size: 11px; }
+  .promo-panel { padding: 40px 24px 24px; }
+  .promo-emblem { width: 36px; height: 36px; margin-bottom: 10px; }
+  .promo-discount strong { font-size: 68px; }
+  .promo-description { font-size: 13px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .promotion-dialog[open] .promo-panel { animation: promo-arrival 280ms ease-out; }
+  @keyframes promo-arrival { from { opacity: 0; } to { opacity: 1; } }
+}

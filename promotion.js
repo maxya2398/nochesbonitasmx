@@ -8,12 +8,6 @@
   const details = document.querySelector('[data-promo-details]');
   if (!banner || !dialog || !details) return;
   const root = document.documentElement;
-  const prices = [...document.querySelectorAll('[data-regular-cents]')].map(node => ({
-    node, original: node.innerHTML, cents: Number(node.dataset.regularCents)
-  }));
-  const money = cents => '$' + new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: cents % 100 ? 2 : 0, maximumFractionDigits: 2
-  }).format(cents / 100);
   let active = false, shown = false, savedBody, scrollY, returnFocus, goToPlans = false;
   const panel = dialog.querySelector('.promo-panel');
   const viewport = window.visualViewport;
@@ -69,12 +63,7 @@
       active = valid;
       banner.hidden = !valid;
       root.classList[valid ? 'add' : 'remove']('promotion-active');
-      prices.forEach(({ node, cents, original }) => {
-        if (!valid) { node.innerHTML = original; return; }
-        const sale = Math.round(cents * 70 / 100);
-        const unit = node.dataset.unit === 'USD / mes' ? 'USD / mes' : 'USD';
-        node.innerHTML = `<span class="promo-sr">Precio original: </span><del class="promo-original">${money(cents)}</del><span class="promo-price-line"><span class="promo-sr">Con 30% de descuento: </span><strong class="promo-sale">${money(sale)}</strong> <span>${unit}</span></span><span class="promo-price-note">30% de descuento · noviembre</span>`;
-      });
+      document.dispatchEvent(new CustomEvent('nbmx:promotion-change', { detail: { active: valid } }));
       if (!valid) {
         root.style.removeProperty('--promo-banner-height');
         if (dialog.open) dialog.close();

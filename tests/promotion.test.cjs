@@ -15,6 +15,7 @@ function setup(time, storage = new Map(), blocked = false) {
   const close = make(), plans = make(), details = make({ focus() {} });
   const timer = make(), body = { style: {} };
   const classes = new Set();
+  const events = {};
   const prices = [4500, 10000, 19000, 10000, 24000, 4000].map((cents, i) =>
     make({ dataset: { regularCents: String(cents), unit: i === 5 ? 'USD / mes' : 'USD' }, innerHTML: 'original-' + cents }));
   const dialog = make({
@@ -28,19 +29,24 @@ function setup(time, storage = new Map(), blocked = false) {
     '[data-promo-details]': details, '#servicios': { scrollIntoView() {} } };
   const context = {
     Date: class extends Date { static now() { return now; } }, Intl,
+    CustomEvent: class { constructor(type, options) { this.type = type; this.detail = options.detail; } },
     window: { scrollY: 123, scrollTo: options => { scrollRestored = options.top; },
       matchMedia: () => ({ matches: true }), addEventListener() {} },
     localStorage: { getItem(k) { if (blocked) throw Error('blocked'); return storage.get(k); },
       setItem(k,v) { if (blocked) throw Error('blocked'); storage.set(k,v); } },
-    document: { body, activeElement: details, visibilityState: 'visible', addEventListener() {},
+    document: { body, activeElement: details, visibilityState: 'visible',
+      addEventListener(type, fn) { events[type] = fn; },
+      dispatchEvent(event) { events[event.type]?.(event); },
       documentElement: { classList: { add: k => classes.add(k), remove: k => classes.delete(k) },
         style: { setProperty() {}, removeProperty() {} } },
       querySelector: s => s === 'dialog[open]' ? (dialog.open ? dialog : null) : elements[s],
-      querySelectorAll: s => s === '[data-regular-cents]' ? prices : [timer] },
+      querySelectorAll: s => s === '[data-regular-cents]' ? prices : s === '[data-promo-countdown]' ? [timer] : [] },
     setInterval: fn => { tick = fn; return 1; }, clearInterval() {},
     requestAnimationFrame: fn => fn()
   };
-  vm.runInNewContext(fs.readFileSync(path.join(root, 'promotion.js'), 'utf8'), context);
+  const runtime = vm.createContext(context);
+  vm.runInContext(fs.readFileSync(path.join(root, 'currency.js'), 'utf8'), runtime);
+  vm.runInContext(fs.readFileSync(path.join(root, 'promotion.js'), 'utf8'), runtime);
   return { banner, dialog, prices, timer, storage, close, body,
     get restored() { return scrollRestored; },
     update(time) { now = Date.parse(time); tick(); } };

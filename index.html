@@ -9,7 +9,9 @@
   <title>Noches Bonitas · Sueño infantil respetuoso</title>
   <link rel="stylesheet" href="styles.css?v=modal-layer-3">
   <link rel="stylesheet" href="promotion.css?v=november-2026-2">
-  <script src="promotion.js?v=november-2026-2" defer></script>
+  <link rel="stylesheet" href="currency.css?v=2">
+  <script src="currency.js?v=2" defer></script>
+  <script src="promotion.js?v=currency-1" defer></script>
   <script src="animations.js" defer></script>
 </head>
 
@@ -33,7 +35,7 @@
       <div class="promo-discount" aria-label="30 por ciento de descuento"><strong aria-hidden="true">30%</strong><span aria-hidden="true">DE DESCUENTO</span></div>
       <p class="promo-description" id="promo-description">En <strong>todos nuestros servicios</strong>, durante noviembre.<br>Un primer paso hacia noches con un poquito más de calma.</p>
       <button class="button" type="button" data-promo-plans>Encontrar mi plan</button>
-      <p class="promo-deadline" id="promo-deadline">Válido hasta el 30 de noviembre de 2026, 23:59 h.<br>Horario de Ciudad de México. Precios en USD.</p>
+      <p class="promo-deadline" id="promo-deadline">Válido hasta el 30 de noviembre de 2026, 23:59 h.<br>Horario de Ciudad de México. Precios en <span data-displayed-currency>USD</span>.</p>
     </div>
   </dialog>
   <header class="header wrap">
@@ -129,6 +131,20 @@
           <h2>¿Qué necesitan hoy?</h2>
         </div>
         <p>Desde una duda puntual hasta un acompañamiento cercano. Elige el apoyo que mejor encaje con ustedes.</p>
+      </div>
+      <div class="currency-picker" data-currency-picker hidden>
+        <fieldset aria-describedby="currency-status">
+          <legend>Elige tu moneda</legend>
+          <div class="currency-options">
+            <label><input type="radio" name="plan-currency" value="MXN" checked><span class="currency-option"><img src="assets/images/brand/flag-mx.svg" alt="" width="24" height="16">MXN<span class="promo-sr"> · Pesos mexicanos</span></span></label>
+            <label><input type="radio" name="plan-currency" value="USD"><span class="currency-option"><img src="assets/images/brand/flag-us.svg" alt="" width="24" height="16">USD<span class="promo-sr"> · Dólares estadounidenses</span></span></label>
+            <label><input type="radio" name="plan-currency" value="COP"><span class="currency-option"><img src="assets/images/brand/flag-co.svg" alt="" width="24" height="16">COP<span class="promo-sr"> · Pesos colombianos</span></span></label>
+          </div>
+        </fieldset>
+        <div class="currency-detail">
+          <p id="currency-status" data-currency-status role="status" aria-live="polite"></p>
+          <button type="button" data-currency-retry hidden>Reintentar conversión a MXN</button>
+        </div>
       </div>
       <div class="plan-grid">
         <article class="plan">

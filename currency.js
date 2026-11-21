@@ -4,47 +4,66 @@
   const retry = document.querySelector('[data-currency-retry]');
   const radios = [...document.querySelectorAll('[name="plan-currency"]')];
   const prices = [...document.querySelectorAll('[data-regular-cents]')].map(node => ({
-    node, original: node.innerHTML, cents: Number(node.dataset.regularCents)
+    node, original: node.innerHTML, cents: Number(node.dataset.regularCents),
+    currency: node.dataset.baseCurrency || 'USD'
   }));
   // Selection and fetched rate belong only to this page instance.
   let selected = picker ? 'MXN' : 'USD';
-  const exchanges = {}, pending = new Set();
-  let failed = null, promotion = false;
+  const exchanges = {}, pending = new Set(), failed = new Set();
+  let promotion = false;
   const money = cents => new Intl.NumberFormat('es-MX', {
     style: 'currency', currency: 'MXN',
     minimumFractionDigits: cents % 100 ? 2 : 0, maximumFractionDigits: 2
   }).format(cents / 100);
+  // Every quote is USD-based. Cross-currency prices need both legs of the path.
+  function requiredRates() {
+    const required = new Set();
+    prices.forEach(({ currency }) => {
+      if (currency === selected) return;
+      if (currency !== 'USD') required.add(currency);
+      if (selected !== 'USD') required.add(selected);
+    });
+    return [...required];
+  }
   function render() {
-    const exchange = exchanges[selected];
-    const currency = exchange ? selected : 'USD';
-    prices.forEach(({ node, original, cents }) => {
-      if (currency === 'USD' && !promotion) { node.innerHTML = original; return; }
-      // Round the converted BASE to tens, then apply the exact discount.
-      // Never convert an already rendered or discounted amount.
-      const step = currency === 'COP' ? 100000 : 1000;
-      const base = exchange ? Math.round(cents * exchange.rate / step) * step : cents;
-      const unit = currency + (node.dataset.unit === 'USD / mes' ? ' / mes' : '');
-      node.innerHTML = promotion
+    const displayed = new Set();
+    prices.forEach(({ node, original, cents, currency: native }) => {
+      const from = native === 'USD' ? 1 : exchanges[native]?.rate;
+      const to = selected === 'USD' ? 1 : exchanges[selected]?.rate;
+      const currency = native === selected || (from && to) ? selected : native;
+      displayed.add(currency);
+      const discounted = promotion && node.dataset.discount !== 'false';
+      if (currency === native && !discounted) { node.innerHTML = original; return; }
+      // Preserve exact native prices; round only converted BASES before discounting.
+      // Never convert a rendered, rounded, or discounted amount.
+      const step = currency === 'COP' ? 100000 : currency === 'USD' ? 500 : 1000;
+      const base = currency === native ? cents : Math.round(cents / from * to / step) * step;
+      const unit = currency + (node.dataset.unit || native).replace(/^[A-Z]{3}/, '');
+      node.innerHTML = discounted
         ? `<span class="promo-sr">Precio original: </span><del class="promo-original">${money(base)}</del><span class="promo-price-line"><span class="promo-sr">Con 30% de descuento: </span><strong class="promo-sale">${money(Math.round(base * 70 / 100))}</strong> <span>${unit}</span></span><span class="promo-price-note">30% de descuento · noviembre</span>`
         : `${money(base)} <span>${unit}</span>`;
     });
     radios.forEach(radio => { radio.checked = radio.value === selected; });
-    document.querySelectorAll('[data-displayed-currency]').forEach(node => { node.textContent = currency; });
+    const label = displayed.size === 1 ? [...displayed][0] : 'su moneda de origen';
+    document.querySelectorAll('[data-displayed-currency]').forEach(node => { node.textContent = label; });
     if (!status) return;
-    retry.hidden = !failed || pending.has(failed);
-    retry.textContent = `Reintentar conversión a ${failed || selected}`;
-    if (pending.has(selected)) {
-      status.textContent = `Consultando el tipo de cambio a ${selected}. Por ahora se muestran precios en USD.`;
-    } else if (failed) {
-      status.textContent = 'No pudimos consultar el tipo de cambio. Mostramos los precios en USD.';
+    const required = requiredRates();
+    retry.hidden = !required.some(currency => failed.has(currency) && !pending.has(currency));
+    retry.textContent = `Reintentar conversión a ${selected}`;
+    const fallback = displayed.size === 1 ? `Los precios se muestran en ${label}.`
+      : 'Los precios sin conversión se muestran en su moneda de origen.';
+    if (required.some(currency => pending.has(currency))) {
+      status.textContent = `Consultando el tipo de cambio a ${selected}. ${fallback}`;
+    } else if (required.some(currency => failed.has(currency))) {
+      status.textContent = `No pudimos consultar el tipo de cambio. ${fallback}`;
     } else {
       status.textContent = '';
     }
   }
-  async function loadRate(currency = selected) {
+  async function loadRate(currency) {
     if (currency === 'USD' || pending.has(currency) || exchanges[currency]) return;
     pending.add(currency);
-    failed = null;
+    failed.delete(currency);
     render();
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 8000);
@@ -64,15 +83,15 @@
       exchanges[currency] = { rate: data.rate, date: data.date };
       // Do not change selected here: the visitor may have chosen USD while loading.
     } catch {
-      if (selected === currency) {
-        failed = currency;
-        selected = 'USD';
-      }
+      failed.add(currency);
     } finally {
       clearTimeout(timeout);
       pending.delete(currency);
       render();
     }
+  }
+  function loadRates() {
+    requiredRates().forEach(loadRate);
   }
   document.addEventListener('nbmx:promotion-change', event => {
     promotion = event.detail.active === true;
@@ -84,14 +103,11 @@
   picker.addEventListener('change', event => {
     if (event.target.name !== 'plan-currency' || !['MXN', 'USD', 'COP'].includes(event.target.value)) return;
     selected = event.target.value;
-    failed = null;
     render();
-    loadRate();
+    loadRates();
   });
   retry.addEventListener('click', () => {
-    if (!failed || pending.has(failed)) return;
-    selected = failed;
-    loadRate();
+    loadRates();
   });
-  loadRate();
+  loadRates();
 })();

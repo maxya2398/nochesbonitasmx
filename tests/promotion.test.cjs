@@ -12,7 +12,7 @@ function setup(time, storage = new Map(), blocked = false) {
     ...extra
   });
   const banner = make({ getBoundingClientRect: () => ({ height: 92 }) });
-  const close = make(), plans = make(), details = make({ focus() {} });
+  const close = make(), plans = make(), details = make({ focus() {} }), dismiss = make();
   const timer = make(), body = { style: {} };
   const classes = new Set();
   const events = {};
@@ -26,7 +26,7 @@ function setup(time, storage = new Map(), blocked = false) {
   });
   let tick, now = Date.parse(time), scrollRestored;
   const elements = { '[data-promo-banner]': banner, '[data-promo-dialog]': dialog,
-    '[data-promo-details]': details, '#servicios': { scrollIntoView() {} } };
+    '[data-promo-details]': details, '[data-promo-dismiss]': dismiss, '#servicios': { scrollIntoView() {} } };
   const context = {
     Date: class extends Date { static now() { return now; } }, Intl,
     CustomEvent: class { constructor(type, options) { this.type = type; this.detail = options.detail; } },
@@ -47,7 +47,7 @@ function setup(time, storage = new Map(), blocked = false) {
   const runtime = vm.createContext(context);
   vm.runInContext(fs.readFileSync(path.join(root, 'currency.js'), 'utf8'), runtime);
   vm.runInContext(fs.readFileSync(path.join(root, 'promotion.js'), 'utf8'), runtime);
-  return { banner, dialog, prices, timer, storage, close, body,
+  return { banner, dialog, prices, timer, storage, close, body, dismiss,
     get restored() { return scrollRestored; },
     update(time) { now = Date.parse(time); tick(); } };
 }
@@ -64,6 +64,16 @@ test('November applies exactly 30 percent to all six current prices and preserve
   app.close.listeners.click();
   assert.equal(app.restored, 123);
   assert.equal(app.body.style.position, undefined);
+});
+
+test('dismissing the banner hides it without canceling service discounts', () => {
+  const app = setup('2026-11-12T12:00:00-06:00');
+  app.close.listeners.click();
+  app.dismiss.listeners.click();
+  assert.equal(app.banner.hidden, true);
+  app.update('2026-11-13T12:00:00-06:00');
+  assert.equal(app.banner.hidden, true);
+  assert.match(app.prices[0].innerHTML, /31\.50/);
 });
 test('welcome is once per campaign and blocked storage does not break the offer', () => {
   const store = new Map();
@@ -93,11 +103,12 @@ test('outside November there is no promotion, altered price, or welcome popup', 
 test('campaign begins at local midnight and all real cards expose their existing base amount', () => {
   assert.equal(setup('2026-11-01T00:00:00-06:00').banner.hidden, false);
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-  const cards = [...html.matchAll(/data-regular-cents="(\d+)" data-unit="([^"]+)">\$(\d+)/g)];
-  assert.equal(cards.length, 6);
-  for (const [, cents, unit, amount] of cards) {
-    assert.equal(Number(cents), Number(amount) * 100);
-    assert.ok(['USD', 'USD / mes'].includes(unit));
+  const cards = [...html.matchAll(/data-regular-cents="(\d+)"([^>]*)>\$([\d,]+)/g)];
+  assert.equal(cards.length, 8);
+  assert.equal(cards.filter(([, , attrs]) => attrs.includes('data-base-currency="MXN"')).length, 2);
+  for (const [, cents, attrs, amount] of cards) {
+    assert.equal(Number(cents), Number(amount.replaceAll(',', '')) * 100);
+    assert.match(attrs, /data-unit="(?:MXN|USD|USD \/ mes)"/);
   }
   assert.match(html, /data-promo-banner[^>]*hidden/);
   assert.match(html, /role="timer" aria-live="off"/);

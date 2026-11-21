@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
 const source = () => fs.readFileSync(path.join(__dirname, '..', 'currency.js'), 'utf8');
-function setup() {
+function setup({ mixed = false } = {}) {
   const handlers = {}, requests = [], timeouts = new Map();
   const make = extra => ({ hidden: false, textContent: '', listeners: {},
     addEventListener(type, fn) { this.listeners[type] = fn; }, ...extra });
@@ -12,6 +12,12 @@ function setup() {
   const radios = ['MXN', 'USD', 'COP'].map(value => make({ value, checked: value === 'MXN' }));
   const prices = [4500, 10000, 19000, 10000, 24000, 4000].map((cents, i) =>
     make({ dataset: { regularCents: String(cents), unit: i === 5 ? 'USD / mes' : 'USD' }, innerHTML: 'original-' + cents }));
+  if (mixed) {
+    prices.push(...[49000, 190000].map((cents, i) => make({
+      dataset: { regularCents: String(cents), baseCurrency: 'MXN', unit: 'MXN', discount: i ? 'true' : 'false' },
+      innerHTML: `$${i ? '1,900' : '490'} <span>MXN</span>`
+    })));
+  }
   const label = make();
   const nodes = { '[data-currency-picker]': picker, '[data-currency-status]': status, '[data-currency-retry]': retry };
   const document = {
@@ -29,10 +35,10 @@ function setup() {
   vm.runInNewContext(source(), context);
   const flush = () => new Promise(resolve => setImmediate(resolve));
   return { picker, radios, prices, status, retry, label, requests,
-    async resolve(data = { date: '2026-11-13', base: 'USD', quote: 'MXN', rate: 18.6092 }, ok = true) {
-      requests.at(-1).resolve({ ok, json: async () => data }); await flush();
+    async resolve(data = { date: '2026-11-13', base: 'USD', quote: 'MXN', rate: 18.6092 }, ok = true, index = -1) {
+      requests.at(index).resolve({ ok, json: async () => data }); await flush();
     },
-    async fail() { requests.at(-1).reject(Error('offline')); await flush(); },
+    async fail(index = -1) { requests.at(index).reject(Error('offline')); await flush(); },
     async timeout() { timeouts.get(1)(); await flush(); },
     choose(value) { picker.listeners.change({ target: { value, name: 'plan-currency' } }); },
     promo(active) { handlers['nbmx:promotion-change']({ detail: { active } }); }
@@ -108,7 +114,7 @@ test('offline, invalid rates and timeout fall back to explicitly labelled USD; r
     if (mode === 'timeout') await app.timeout();
     assert.match(app.status.textContent, /USD/);
     assert.equal(app.retry.hidden, false);
-    assert.equal(app.radios[1].checked, true);
+    assert.equal(app.radios[0].checked, true);
     assert.match(app.prices[0].innerHTML, /\$31.50/);
     app.retry.listeners.click();
     app.retry.listeners.click();
@@ -117,6 +123,74 @@ test('offline, invalid rates and timeout fall back to explicitly labelled USD; r
     assert.equal(app.radios[0].checked, true);
     assert.match(app.prices[0].innerHTML, /\$588/);
   }
+});
+
+test('mixed bases preserve exact native MXN prices and exempt digital downloads from promotion', async () => {
+  const app = setup({ mixed: true });
+  assert.match(app.prices[6].innerHTML, /\$490 <span>MXN/);
+  app.promo(true);
+  assert.match(app.prices[6].innerHTML, /\$490 <span>MXN/);
+  assert.doesNotMatch(app.prices[6].innerHTML, /promo-|<del/);
+  assert.match(app.prices[7].innerHTML, /<del[^>]*>\$1,900<\/del>/);
+  assert.match(app.prices[7].innerHTML, /\$1,330/);
+  await app.resolve();
+  assert.match(app.prices[6].innerHTML, /\$490 <span>MXN/);
+  assert.match(app.prices[7].innerHTML, /\$1,330/);
+  app.promo(false);
+  assert.match(app.prices[7].innerHTML, /\$1,900 <span>MXN/);
+});
+
+test('MXN base converts through USD without compounding and COP requires both rates', async () => {
+  const app = setup({ mixed: true });
+  app.choose('COP');
+  await app.resolve({ date: '2026-11-13', base: 'USD', quote: 'COP', rate: 4123.45 });
+  assert.match(app.prices[0].innerHTML, /\$186,000/);
+  assert.match(app.prices[6].innerHTML, /\$490 <span>MXN/);
+  await app.resolve(undefined, true, 0);
+  assert.match(app.prices[6].innerHTML, /\$109,000 <span>COP/);
+  assert.match(app.prices[7].innerHTML, /\$421,000 <span>COP/);
+  app.promo(true);
+  assert.match(app.prices[6].innerHTML, /\$109,000 <span>COP/);
+  assert.doesNotMatch(app.prices[6].innerHTML, /<del/);
+  assert.match(app.prices[7].innerHTML, /\$294,700/);
+  app.choose('USD');
+  assert.match(app.prices[6].innerHTML, /\$25 <span>USD/);
+  assert.match(app.prices[7].innerHTML, /\$70/);
+  assert.match(app.prices[0].innerHTML, /\$31.50/);
+  app.choose('MXN');
+  assert.match(app.prices[6].innerHTML, /\$490 <span>MXN/);
+  assert.match(app.prices[7].innerHTML, /\$1,330/);
+  assert.equal(app.requests.length, 2);
+});
+
+test('missing MXN rate retains native prices, monthly units and last choice; USD fetches the needed rate', async () => {
+  const app = setup({ mixed: true });
+  app.promo(true);
+  await app.fail();
+  assert.equal(app.radios[0].checked, true);
+  assert.match(app.status.textContent, /moneda de origen/);
+  assert.match(app.prices[5].innerHTML, /\$28.*USD \/ mes/);
+  assert.match(app.prices[6].innerHTML, /\$490 <span>MXN/);
+  assert.match(app.prices[7].innerHTML, /\$1,330/);
+  app.choose('USD');
+  assert.equal(app.requests.length, 2);
+  assert.match(app.requests[1].url, /usd\/mxn$/);
+  app.retry.listeners.click();
+  assert.equal(app.requests.length, 2);
+  app.choose('COP');
+  await app.resolve({ date: '2026-11-13', base: 'USD', quote: 'COP', rate: 4123.45 });
+  await app.fail(1);
+  assert.equal(app.radios[2].checked, true);
+  assert.match(app.prices[5].innerHTML, /COP \/ mes/);
+  assert.match(app.prices[6].innerHTML, /\$490 <span>MXN/);
+  assert.equal(app.retry.hidden, false);
+  app.retry.listeners.click();
+  assert.match(app.requests.at(-1).url, /usd\/mxn$/);
+  app.choose('USD');
+  await app.resolve();
+  assert.equal(app.radios[1].checked, true);
+  assert.match(app.prices[6].innerHTML, /\$25 <span>USD/);
+  assert.equal(app.status.textContent, '');
 });
 test('a new page always resets MXN without local or session storage', async () => {
   const first = setup(); await first.resolve(); first.choose('USD');

@@ -3,15 +3,15 @@ const assert = require('node:assert/strict');
 const { readFileSync } = require('node:fs');
 const html = readFileSync('index.html', 'utf8');
 
-test('action arrows use decorative SVGs instead of platform emoji glyphs', () => {
+test('brand line icons replace decorative action arrows', () => {
   assert.doesNotMatch(html, /[\u2197\u2193]/u);
-  const icons = html.match(/<svg\s+class="icon-arrow"[^>]*>/g) || [];
-  assert.equal(icons.length, 12);
+  const icons = html.match(/<svg\s+class="brand-icon"[^>]*>/g) || [];
+  assert.equal(icons.length, 11);
   for (const icon of icons) {
     assert.match(icon, /aria-hidden="true"/);
     assert.match(icon, /focusable="false"/);
-    assert.match(icon, /stroke="currentColor"/);
   }
+  assert.doesNotMatch(html, /class="icon-arrow"/);
 });
 
 test('plan headings retain word boundaries when desktop breaks are hidden', () => {

@@ -6,9 +6,10 @@
   const banner = document.querySelector('[data-promo-banner]');
   const dialog = document.querySelector('[data-promo-dialog]');
   const details = document.querySelector('[data-promo-details]');
+  const dismiss = document.querySelector('[data-promo-dismiss]');
   if (!banner || !dialog || !details) return;
   const root = document.documentElement;
-  let active = false, shown = false, savedBody, scrollY, returnFocus, goToPlans = false;
+  let active = false, shown = false, dismissed = false, savedBody, scrollY, returnFocus, goToPlans = false;
   const panel = dialog.querySelector('.promo-panel');
   const viewport = window.visualViewport;
   const fitDialog = () => {
@@ -17,7 +18,7 @@
     panel.style.maxHeight = `${Math.max(0, viewport.height - 32)}px`;
   };
   const measureBanner = () => {
-    if (active) root.style.setProperty('--promo-banner-height', `${banner.getBoundingClientRect().height}px`);
+    if (active) root.style.setProperty('--promo-banner-height', `${dismissed ? 0 : banner.getBoundingClientRect().height}px`);
   };
   const isActive = () => Date.now() >= starts && Date.now() < ends;
   function showOffer() {
@@ -57,11 +58,17 @@
     }
   });
   details.addEventListener('click', showOffer);
+  dismiss?.addEventListener('click', () => {
+    dismissed = true;
+    banner.hidden = true;
+    measureBanner();
+    document.querySelector('.brand-image')?.focus?.({ preventScroll: true });
+  });
   function update() {
     const valid = isActive();
     if (valid !== active) {
       active = valid;
-      banner.hidden = !valid;
+      banner.hidden = !valid || dismissed;
       root.classList[valid ? 'add' : 'remove']('promotion-active');
       document.dispatchEvent(new CustomEvent('nbmx:promotion-change', { detail: { active: valid } }));
       if (!valid) {

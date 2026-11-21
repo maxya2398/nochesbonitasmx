@@ -7,21 +7,39 @@
   <meta name="description"
     content="Acompañamiento de sueño infantil respetuoso y personalizado con Nicoleth. Conoce los servicios de Noches Bonitas Mx.">
   <title>Noches Bonitas · Sueño infantil respetuoso</title>
-  <link rel="stylesheet" href="styles.css?v=modal-layer-3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&amp;family=Nunito:wght@400;600;700&amp;family=Poppins:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
+  <meta property="og:title" content="Noches Bonitas · Sueño infantil respetuoso">
+  <meta property="og:description" content="Acompañamiento respetuoso, planes y guías para cada etapa. Con calma, con amor y paso a paso.">
+  <meta property="og:image" content="https://nochesbonitasmx.com/assets/mockups/vista-previa-compartir-1200x630.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Noches Bonitas: guías y acompañamiento para noches con más calma">
+  <meta property="og:url" content="https://nochesbonitasmx.com/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="styles.css?v=brand-refresh-1">
   <link rel="stylesheet" href="promotion.css?v=november-2026-2">
   <link rel="stylesheet" href="currency.css?v=2">
   <script src="currency.js?v=2" defer></script>
   <script src="promotion.js?v=currency-1" defer></script>
   <script src="animations.js" defer></script>
+  <link rel="stylesheet" href="redesign.css?v=1">
+  <link rel="stylesheet" href="contact.css?v=1">
+  <script src="redesign.js?v=1" defer></script>
+
 </head>
 
 <body>
   <a class="skip-link" href="#inicio">Ir al contenido</a>
   <aside class="promo-banner" data-promo-banner aria-label="Promoción de noviembre" hidden>
     <div class="promo-banner-inner wrap">
-      <div class="promo-banner-copy"><span class="promo-banner-tag">BUEN FIN · NOVIEMBRE</span><strong>30% de descuento en todos los servicios</strong></div>
+      <div class="promo-banner-copy"><span class="promo-banner-tag">BUEN FIN · NOVIEMBRE</span><strong>30% en todos los servicios</strong><span class="promo-separator" aria-hidden="true">·</span></div>
       <div class="promo-countdown" role="timer" aria-live="off" aria-label="Tiempo restante de la promoción" data-promo-countdown></div>
       <button class="promo-banner-action" type="button" data-promo-details>Ver promoción</button>
+      <button class="promo-dismiss" type="button" data-promo-dismiss aria-label="Cerrar barra de promoción">×</button>
     </div>
   </aside>
   <dialog class="promotion-dialog" data-promo-dialog aria-labelledby="promo-title" aria-describedby="promo-description promo-deadline">
@@ -29,7 +47,7 @@
       <button class="promo-close" type="button" data-promo-close aria-label="Cerrar promoción" autofocus>
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"/></svg>
       </button>
-      <svg class="promo-emblem" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true" focusable="false"><path d="M26 4a20 20 0 1 0 18 27A18 18 0 0 1 26 4Z"/><path d="m36 6 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z"/></svg>
+      <img class="promo-emblem promo-brand" src="assets/images/brand/logo-web-v2.png" alt="Noches Bonitas" width="2172" height="724">
       <p class="eyebrow">UN BUEN FIN PARA DESCANSAR MEJOR</p>
       <h2 id="promo-title">Noviembre nos regala<br>noches más bonitas.</h2>
       <div class="promo-discount" aria-label="30 por ciento de descuento"><strong aria-hidden="true">30%</strong><span aria-hidden="true">DE DESCUENTO</span></div>
@@ -42,13 +60,10 @@
     <a class="brand-image" href="#inicio" aria-label="Noches Bonitas, inicio"><img
         src="assets/images/brand/logo-web-v2.png" alt="Noches Bonitas" width="2172" height="724"
         fetchpriority="high"></a>
-    <nav aria-label="Navegación principal"><a href="#enfoque">El enfoque</a><a href="#nicoleth">Sobre mí</a><a
+    <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="main-navigation" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span class="promo-sr">Abrir menú</span></button>
+    <nav id="main-navigation" aria-label="Navegación principal"><a href="#enfoque">El enfoque</a><a href="#nicoleth">Sobre mí</a><a
         href="#servicios">Planes</a><a href="#testimonios">Testimonios</a></nav>
-    <a class="button small" href="https://ig.me/m/nochesbonitas.mx">Hablemos <svg class="icon-arrow" viewBox="0 0 24 24"
-        width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-        stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <path d="M6 18 18 6M6 6h12v12" />
-      </svg></a>
+    <a class="button small" href="https://ig.me/m/nochesbonitas.mx">Hablemos</a>
   </header>
   <main id="inicio">
     <section class="hero wrap" aria-labelledby="hero-title">
@@ -57,21 +72,11 @@
         <h1 id="hero-title">Volvamos a hacer<br><em>bonitas</em> tus noches.</h1>
         <p class="intro">No tienes que encontrar todas las respuestas sola. Te acompaño a entender el sueño de tu bebé y
           a construir un camino que tenga sentido para tu familia.</p>
-        <div class="actions"><a class="button" href="#servicios">Encuentra tu acompañamiento <svg class="icon-arrow"
-              viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <path d="M12 4v16m-6-6 6 6 6-6" />
-            </svg></a><a class="text-link" href="https://ig.me/m/nochesbonitas.mx">Escríbeme por Instagram <svg
-              class="icon-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <path d="M6 18 18 6M6 6h12v12" />
-            </svg></a></div>
-        <p class="hero-note">Sin juicios. Sin fórmulas mágicas. Con mucho acompañamiento.</p>
+        <div class="actions"><a class="button" href="#servicios">Encuentra tu acompañamiento</a><a class="text-link" href="https://ig.me/m/nochesbonitas.mx">Escríbeme por Instagram</a></div>
+        <p class="hero-note">Sin juicios. Sin recetas universales. Con mucho acompañamiento.</p>
       </div>
-      <div class="night-art" role="img" aria-label="Ilustración decorativa de una luna y estrellas sobre un cielo azul">
-        <span class="star star-one">✦</span><span class="star star-two">✧</span><span class="star star-three">✦</span>
-        <div class="moon"></div>
-        <div class="orbit"></div>
+      <div class="night-art">
+        <img src="assets/images/brand/night-scene.svg" width="480" height="550" alt="Una luna, una nube, una cuna y un osito bajo un cielo de estrellas" fetchpriority="high">
         <p>Dormir mejor también<br>puede sentirse <em>bonito.</em></p>
         <span class="art-caption">NOCHES BONITAS MX</span>
       </div>
@@ -122,16 +127,22 @@
           <p>Porque mi objetivo no es solamente que tu bebé duerma mejor. Es que ustedes vuelvan a disfrutar sus noches,
             sus días y esta etapa con un poquito más de calma.</p>
         </details>
+        <p class="handwritten">con cariño, Nicoleth</p>
       </div>
     </section>
-    <section class="services wrap" id="servicios">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">CADA FAMILIA TIENE SU PROPIO CAMINO</p>
-          <h2>¿Qué necesitan hoy?</h2>
+    <section class="stage-section" id="etapas" aria-labelledby="stage-title">
+      <div class="wrap">
+        <p class="eyebrow">UN CAMINO PARA CADA MOMENTO</p>
+        <h2 id="stage-title">¿En qué <em>etapa</em> están?</h2>
+        <div class="stage-grid">
+          <a class="stage-card" href="#primeras-noches"><svg class="brand-icon" aria-hidden="true" focusable="false"><use href="assets/images/brand/icons.svg#crib"></use></svg><span>Embarazo y 0 a 5 meses</span><small>Primeras noches bonitas</small></a>
+          <a class="stage-card" href="#servicios"><svg class="brand-icon" aria-hidden="true" focusable="false"><use href="assets/images/brand/icons.svg#moon"></use></svg><span>Desde los 6 meses</span><small>Un plan para tu familia</small></a>
+          <a class="stage-card" href="#guias"><svg class="brand-icon" aria-hidden="true" focusable="false"><use href="assets/images/brand/icons.svg#suitcase"></use></svg><span>Guías digitales</span><small>Herramientas para llevar contigo</small></a>
         </div>
-        <p>Desde una duda puntual hasta un acompañamiento cercano. Elige el apoyo que mejor encaje con ustedes.</p>
+        <p class="stage-return">¿Ya hiciste tu plan conmigo? <a href="#sleep-coach">Tu Sleep Coach</a></p>
       </div>
+    </section>
+    <div class="wrap currency-section">
       <div class="currency-picker" data-currency-picker hidden>
         <fieldset aria-describedby="currency-status">
           <legend>Elige tu moneda</legend>
@@ -146,8 +157,63 @@
           <button type="button" data-currency-retry hidden>Reintentar conversión a MXN</button>
         </div>
       </div>
+    </div>
+    <section class="early-section" id="primeras-noches" aria-labelledby="early-title">
+      <div class="wrap">
+        <div class="early-intro">
+          <div>
+            <p class="eyebrow">BASES SALUDABLES DESDE EL INICIO</p>
+            <h2 id="early-title">Primeras noches <em>bonitas</em></h2>
+            <p>Para embarazadas y bebés de 0 a 5 meses. Entiende el sueño de tu bebé y construye hábitos saludables desde el principio, sin entrenamiento de sueño y sin dejarlo llorar.</p>
+            <ul class="check-list">
+              <li>Sueño seguro y ambiente de descanso</li>
+              <li>Cómo funciona el sueño en los primeros meses</li>
+              <li>Ventanas de sueño y señales de cansancio</li>
+              <li>Siestas, noches y tomas</li>
+              <li>Rutinas flexibles</li>
+              <li>La regresión de los 4 meses</li>
+              <li>Un plan de acción de 7 días</li>
+            </ul>
+          </div>
+          <div class="book-pair">
+            <figure><img src="assets/mockups/portada-guia-primeras-noches.png" alt="Portada de la guía Primeras noches bonitas" width="927" height="1200" loading="lazy" decoding="async"><figcaption>La guía · 36 páginas</figcaption></figure>
+            <figure><img src="assets/mockups/portada-cuaderno-primeras-noches.png" alt="Portada del cuaderno de trabajo Primeras noches bonitas" width="927" height="1200" loading="lazy" decoding="async"><figcaption>Tu cuaderno · 10 páginas</figcaption></figure>
+          </div>
+        </div>
+        <div class="product-grid">
+          <article class="product-card">
+            <svg class="brand-icon" aria-hidden="true" focusable="false"><use href="assets/images/brand/icons.svg#book"></use></svg>
+            <p class="eyebrow">A TU RITMO</p>
+            <h3>Primeras noches bonitas · Digital</h3>
+            <ul><li>Guía para leer (36 páginas)</li><li>Cuaderno de trabajo para llenar e imprimir (10 páginas)</li></ul>
+            <p class="price" data-regular-cents="49000" data-base-currency="MXN" data-discount="false" data-unit="MXN">$490 <span>MXN</span></p>
+            <p class="delivery-note">PDF · Compra y entrega coordinadas por Instagram.</p>
+            <a class="button outline" href="https://ig.me/m/nochesbonitas.mx" data-contact-product="Primeras noches bonitas · Digital">Quiero mi guía digital</a>
+          </article>
+          <article class="product-card recommended">
+            <span class="badge">RECOMENDADO</span>
+            <svg class="brand-icon" aria-hidden="true" focusable="false"><use href="assets/images/brand/icons.svg#heart"></use></svg>
+            <p class="eyebrow">LO VEMOS JUNTAS</p>
+            <h3>Primeras noches bonitas · Con asesoría 1 a 1</h3>
+            <ul><li>Videollamada individual de 90 minutos</li><li>Guía para leer</li><li>Cuaderno de trabajo</li><li>Resumen escrito con tus ajustes</li></ul>
+            <p class="price" data-regular-cents="190000" data-base-currency="MXN" data-unit="MXN">$1,900 <span>MXN</span></p>
+            <a class="button" href="https://ig.me/m/nochesbonitas.mx" data-contact-product="Primeras noches bonitas · Con asesoría 1 a 1">Quiero mi asesoría</a>
+          </article>
+        </div>
+        <p class="upgrade-note">¿Compraste la versión digital y después quieres la asesoría o un plan? Te descuento lo que pagaste si contratas en los siguientes 30 días.</p>
+      </div>
+    </section>
+    <section class="services wrap" id="servicios">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">CADA FAMILIA TIENE SU PROPIO CAMINO</p>
+          <h2>Planes desde los <em>6 meses</em></h2>
+        </div>
+        <p>Desde una duda puntual hasta un acompañamiento cercano. Elige el apoyo que mejor encaje con ustedes.</p>
+      </div>
       <div class="plan-grid">
         <article class="plan">
+          <svg class="brand-icon" aria-hidden="true" focusable="false"><use href="assets/images/brand/icons.svg#clock"></use></svg>
           <p class="eyebrow">UNA DUDA PUNTUAL</p>
           <h3>Consulta <br>Sueño Express</h3>
           <p class="price" data-regular-cents="4500" data-unit="USD">$45 <span>USD</span></p>
@@ -157,13 +223,10 @@
             <li>Formulario y análisis previo</li>
             <li>Recomendaciones personalizadas</li>
             <li>Resumen escrito de ajustes</li>
-          </ul><a class="button outline" href="https://ig.me/m/nochesbonitas.mx">Consultar por Instagram <svg
-              class="icon-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <path d="M6 18 18 6M6 6h12v12" />
-            </svg></a>
+          </ul><a class="button outline" href="https://ig.me/m/nochesbonitas.mx" data-contact-product="Consulta Sueño Express">Consultar por Instagram</a>
         </article>
         <article class="plan">
+          <svg class="brand-icon" aria-hidden="true" focusable="false"><use href="assets/images/brand/icons.svg#moon"></use></svg>
           <p class="eyebrow">A TU PROPIO RITMO</p>
           <h3>Plan Sueño <br>en Calma</h3>
           <p class="eligibility">Desde los 6 meses</p>
@@ -174,13 +237,10 @@
             <li>Plan escrito y personalizado</li>
             <li>Rutinas, siestas y despertares</li>
             <li>Videollamada de 60 minutos</li>
-          </ul><a class="button outline" href="https://ig.me/m/nochesbonitas.mx">Consultar por Instagram <svg
-              class="icon-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <path d="M6 18 18 6M6 6h12v12" />
-            </svg></a>
+          </ul><a class="button outline" href="https://ig.me/m/nochesbonitas.mx" data-contact-product="Plan Sueño en Calma">Consultar por Instagram</a>
         </article>
         <article class="plan featured"><span class="badge">MÁS ELEGIDO</span>
+          <svg class="brand-icon" aria-hidden="true" focusable="false"><use href="assets/images/brand/icons.svg#bear"></use></svg>
           <p class="eyebrow">LO HACEMOS JUNTAS</p>
           <h3>Plan <br>Noches Bonitas</h3>
           <p class="eligibility">Desde los 6 meses</p>
@@ -191,68 +251,54 @@
             <li>14 días de apoyo por WhatsApp</li>
             <li>Revisión de bitácora de sueño</li>
             <li>Ajustes y resolución de dudas</li>
-          </ul><a class="button cream" href="https://ig.me/m/nochesbonitas.mx">Consultar por Instagram <svg
-              class="icon-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <path d="M6 18 18 6M6 6h12v12" />
-            </svg></a>
+          </ul><a class="button cream" href="https://ig.me/m/nochesbonitas.mx" data-contact-product="Plan Noches Bonitas">Consultar por Instagram</a>
         </article>
       </div>
       <div class="extra-plans">
-        <article class="wide-plan early-months">
-          <p class="eyebrow">BASES SALUDABLES DESDE EL INICIO</p>
-          <h3>Asesoría Hábitos Saludables</h3>
-          <p class="eligibility">Durante el embarazo o para bebés de 0 a 5 meses</p>
-          <p class="price" data-regular-cents="10000" data-unit="USD">$100 <span>USD</span></p>
-          <p>Comprende el sueño de tu bebé y construye bases saludables sin entrenamiento de sueño.</p>
-          <ul>
-            <li>Videollamada individual de 90 minutos</li>
-            <li>Cómo funciona el sueño en los primeros meses</li>
-            <li>Sueño seguro y ambiente de descanso</li>
-            <li>Señales de cansancio y ventanas orientativas</li>
-            <li>Siestas, sueño nocturno y tomas</li>
-            <li>Rutinas flexibles y regresión de los 4 meses</li>
-            <li>Guía digital con tablas y recomendaciones</li>
-          </ul>
-          <a class="text-link" href="https://ig.me/m/nochesbonitas.mx">Consultar por Instagram <svg class="icon-arrow"
-              viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <path d="M6 18 18 6M6 6h12v12" />
-            </svg></a>
-        </article>
-        <article class="wide-plan">
+<article class="wide-plan">
+          <svg class="brand-icon" aria-hidden="true" focusable="false"><use href="assets/images/brand/icons.svg#heart"></use></svg>
           <p class="eyebrow">MÁS TIEMPO, MÁS CALMA</p>
           <h3>Noches Bonitas Contigo</h3>
           <p class="eligibility">Desde los 6 meses</p>
           <p class="price" data-regular-cents="24000" data-unit="USD">$240 <span>USD</span></p>
           <p>Plan personalizado y <strong>30 días de acompañamiento por WhatsApp</strong>, revisión de bitácora y
             ajustes. Incluye llamada inicial de 60 minutos, seguimiento de 30 minutos y revisión final.</p><a
-            class="text-link" href="https://ig.me/m/nochesbonitas.mx">Quiero un mes de acompañamiento <svg
-              class="icon-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <path d="M6 18 18 6M6 6h12v12" />
-            </svg></a>
+            class="text-link" href="https://ig.me/m/nochesbonitas.mx" data-contact-product="Noches Bonitas Contigo">Quiero un mes de acompañamiento</a>
         </article>
-        <article class="wide-plan membership">
+        <article class="wide-plan membership" id="sleep-coach">
+          <svg class="brand-icon" aria-hidden="true" focusable="false"><use href="assets/images/brand/icons.svg#book"></use></svg>
           <p class="eyebrow">PARA LAS ETAPAS QUE SIGUEN</p>
           <h3>Tu Sleep Coach</h3>
           <p class="price" data-regular-cents="4000" data-unit="USD / mes">$40 <span>USD / mes</span></p>
           <p>Seguimiento por WhatsApp dentro del horario de atención, ajustes de rutinas, revisión mensual de bitácora y
             una videollamada de 30 minutos al mes.</p>
           <p class="eligibility">Exclusivo para familias que ya realizaron un plan completo con Noches Bonitas.</p><a
-            class="text-link" href="https://ig.me/m/nochesbonitas.mx">Quiero continuar acompañada <svg
-              class="icon-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <path d="M6 18 18 6M6 6h12v12" />
-            </svg></a>
+            class="text-link" href="https://ig.me/m/nochesbonitas.mx" data-contact-product="Tu Sleep Coach">Quiero continuar acompañada</a>
         </article>
       </div>
       <p class="help">¿No sabes cuál elegir? <a href="https://ig.me/m/nochesbonitas.mx">Cuéntame qué están viviendo y lo
-          vemos juntas <svg class="icon-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none"
-            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
-            focusable="false">
-            <path d="M6 18 18 6M6 6h12v12" />
-          </svg></a></p>
+          vemos juntas</a></p>
+    </section>
+    <section class="guides-section" id="guias" aria-labelledby="guides-title">
+      <div class="wrap">
+        <p class="eyebrow">PARA LLEVAR CONTIGO</p>
+        <h2 id="guides-title">Guías <em>digitales</em></h2>
+        <p>Herramientas prácticas para momentos específicos, para leer a tu ritmo.</p>
+        <div class="guide-grid">
+          <article class="guide-card">
+            <div class="guide-cover"><img src="assets/mockups/portada-guia-de-viaje.png" alt="Portada de Guía de viaje" width="927" height="1200" loading="lazy" decoding="async"></div>
+            <div class="guide-copy">
+              <svg class="brand-icon" aria-hidden="true" focusable="false"><use href="assets/images/brand/icons.svg#suitcase"></use></svg>
+              <h3>Guía de viaje</h3>
+              <p>Para que todos duerman bien, también de vacaciones. Bebés y niños de 0 a 5 años.</p>
+              <ul class="check-list"><li>Cómo planear pensando en el sueño</li><li>El día del viaje y cambio de horario</li><li>Rutinas en el camino y dormir fuera de casa</li><li>Momentos S.O.S. y volver a la rutina</li><li>Checklists para empacar</li><li>Tu plan de viaje para llenar</li></ul>
+              <p class="delivery-note">34 páginas en PDF · Entrega coordinada por Instagram.</p>
+              <p class="price" data-regular-cents="1500" data-unit="USD" data-discount="false">$15 <span>USD</span></p>
+              <a class="button" href="https://ig.me/m/nochesbonitas.mx" data-contact-product="Guía de viaje">Quiero mi guía de viaje</a>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
     <section class="testimonials wrap" id="testimonios" aria-labelledby="testimonials-title" data-carousel>
       <p class="eyebrow">PALABRAS QUE NOS ACOMPAÑAN</p>
@@ -413,10 +459,26 @@
         </details>
         <details>
           <summary>¿Cómo elijo el acompañamiento?</summary>
-          <p>Si estás embarazada o tu bebé tiene de 0 a 5 meses, la Asesoría Hábitos Saludables ofrece orientación sin
+          <p>Si estás embarazada o tu bebé tiene de 0 a 5 meses, Primeras noches bonitas ofrece orientación sin
             entrenamiento de sueño. Desde los 6 meses, puedes elegir un plan personalizado con distintos niveles de
             apoyo. Para una situación puntual, está la Consulta Sueño Express. Escríbeme por Instagram y revisamos qué
             opción encaja con tu familia.</p>
+        </details>
+        <details>
+          <summary>¿Cómo recibo mi guía?</summary>
+          <p>Escríbeme por Instagram para coordinar la compra y la entrega del PDF. Por ahora, la entrega es manual: no hay pago ni descarga automática en este sitio.</p>
+        </details>
+        <details>
+          <summary>¿Puedo llenar el cuaderno en el celular?</summary>
+          <p>Sí. Puedes escribir directo en el PDF con una aplicación compatible o imprimirlo.</p>
+        </details>
+        <details>
+          <summary>¿Qué diferencia hay entre la versión digital y la asesoría?</summary>
+          <p>La digital es para aprender a tu ritmo. En la asesoría, además, vemos juntas el caso de tu bebé en una videollamada de 90 minutos.</p>
+        </details>
+        <details>
+          <summary>¿Sirve si todavía estoy embarazada?</summary>
+          <p>Sí, es el mejor momento para prepararte.</p>
         </details>
       </div>
     </section>
@@ -426,21 +488,21 @@
         <p class="eyebrow">EMPECEMOS CON UNA CONVERSACIÓN</p>
         <h2>Un poquito más de descanso.<br>Un poquito más de calma.</h2>
         <p>Cuéntame cómo son sus noches.<br>Encontramos juntas por dónde empezar.</p><a class="button cream"
-          href="https://ig.me/m/nochesbonitas.mx">Escríbeme por Instagram <svg class="icon-arrow" viewBox="0 0 24 24"
-            width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-            stroke-linejoin="round" aria-hidden="true" focusable="false">
-            <path d="M6 18 18 6M6 6h12v12" />
-          </svg></a>
+          href="https://ig.me/m/nochesbonitas.mx">Escríbeme por Instagram</a>
         <p class="handle">@nochesbonitas.mx</p>
       </div>
     </section>
   </main>
-  <footer class="wrap"><a class="wordmark" href="#inicio">Noches Bonitas<span>DORMIR MEJOR TAMBIÉN PUEDE SENTIRSE
-        BONITO.</span></a><a href="https://www.instagram.com/nochesbonitas.mx/">Instagram <svg class="icon-arrow"
-        viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"
-        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <path d="M6 18 18 6M6 6h12v12" />
-      </svg></a></footer>
+  <footer class="site-footer wrap">
+    <div class="footer-brand">
+      <a href="#inicio"><img src="assets/images/brand/logo-web-v2.png" width="2172" height="724" alt="Noches Bonitas" loading="lazy" decoding="async"></a>
+      <p>Dormir mejor también puede sentirse bonito.</p>
+      <p class="handwritten">con calma, con amor y paso a paso</p>
+    </div>
+    <nav aria-label="Enlaces del pie de página"><a href="#enfoque">El enfoque</a><a href="#nicoleth">Sobre mí</a><a href="#servicios">Planes</a><a href="#primeras-noches">Primeras noches bonitas</a><a href="#guias">Guías digitales</a><a href="#testimonios">Testimonios</a></nav>
+    <div class="footer-contact"><a href="https://www.instagram.com/nochesbonitas.mx/">@nochesbonitas.mx</a><a class="button outline" href="https://ig.me/m/nochesbonitas.mx">Escríbeme por Instagram</a></div>
+    <div class="footer-legal"><a href="aviso-de-privacidad.html">Aviso de privacidad</a><a href="terminos.html">Términos y condiciones</a></div>
+  </footer>
 </body>
 
 </html>
